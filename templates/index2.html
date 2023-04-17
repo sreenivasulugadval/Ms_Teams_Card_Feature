@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+            /* Add styles for the sidebar */
+            .sidebar {
+                height: 100%;
+                width: 200px;
+                position: fixed;
+                z-index: 1;
+                top: 48.3px;
+                left: 0;
+                background-color: #20553e;
+                overflow-x: hidden;
+                padding-top: 30px;
+            }
+
+
+            .sidebar a {
+                padding: 6px 8px 6px 16px;
+                text-decoration: none;
+                font-size: 20px;
+                color: #ffffff;
+                display: block;
+            }
+
+            .sidebar a:hover {
+                color: #f1f1f1;
+            }
+
+
+            .sidebar .active {
+                background-color: #4CAF50;
+                color: white;
+            }
+
+            /* Add styles for the header */
+           .header {
+                background-color: #ffffff;
+                padding: 20px;
+                text-align: center;
+                position: relative; /* add this */
+                top: 50%; /* add this */
+                transform: translateY(-50%); /* add this */
+                width: 100%;
+                height: 40px;
+                margin-bottom: 10px;
+            }
+            .my-heading {
+                font-family: Arial, sans-serif; /* specify the font family */
+                font-size: 30px; /* specify the font size */
+                color: #64d117; /* specify the font color */
+                font-weight: initial; /* specify the font weight (e.g., bold, normal) */
+            }
+            .logout-button {
+                position: absolute; /* Position the button absolutely within the header */
+                right: 50px; /* Position from the right */
+                background-color: #dd190c;
+                color: #fff;
+                padding: 8px;
+                border: none;
+                cursor: pointer;
+            }
+            .display-username{
+                    position: absolute;
+                    right: 130px;
+                    top: 20px;
+                    color: #eb19dc;
+                    font-size: 20px;
+                    font-family: auto;
+            }
+
+            /* Add styles for the table */
+            table, th, td {
+                border:1px solid black;
+            }
+
+            .content {
+                margin-left: 193px; /* Width of the sidebar */
+                padding: 20px;
+                 background-color: #81818124;
+                width: calc(100% - 200px); /* Remaining width */
+                box-sizing: border-box;
+                 margin-top: -50px;
+            }
+             .gray-row {
+                 background-color: #f2f2f2;
+              }
+
+            @media only screen and (max-width: 600px) {
+                /* Adjust styles for small screens */
+                .sidebar {
+                    width: 100%;
+                    height: auto;
+                    position: static;
+                    overflow-x: hidden;
+                    padding-top: 20px;
+                }
+
+                .content {
+                    margin-left: 0;
+                    width: 10%;
+                    margin: 0;
+                    padding: 0;
+                }
+
+                .sidebar a {
+                    display: block;
+                    padding: 10px;
+                    color: #000;
+                    text-decoration: none;
+                }
+
+                /* Style for the selected sidebar link */
+                .sidebar a.active {
+                    background-color: #f8f8f8;
+                    colour:#ffffff!important;
+                }
+                .sidebar-option.active {
+                    background-color: #ccc; /* Update with your desired style */
+                    color: #fff; /* Update with your desired style */
+                  }
+            }
+
+            .dropdown {
+              position: relative;
+              display: inline-block;
+            }
+
+            .dropbtn {
+              background-color: #4CAF50;
+              color: white;
+              padding: 10px;
+              font-size: 16px;
+              border: none;
+              cursor: pointer;
+            }
+
+            .dropdown-content {
+              display: none;
+              position: absolute;
+              z-index: 1;
+              background-color: #f1f1f1;
+              min-width: 160px;
+              box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            }
+
+            .dropdown-content a {
+              color: black;
+              padding: 12px 16px;
+              text-decoration: none;
+              display: block;
+            }
+
+            .dropdown:hover .dropdown-content {
+              display: block;
+            }
+            .dropdown.active .dropdown-content {
+                        display: block;
+                    }
+
+            .dropdown-content {
+              top: 30px;
+              left: 0;
+            }
+
+
+            .vertical-dots {
+                writing-mode: vertical-rl; /* set writing mode to vertical right-to-left */
+                text-orientation: mixed; /* allow characters to be rotated */
+            }
+            .edit-link {
+              color: black; /* Change "blue" to the color you want */
+            }
+
+        .message {
+            font-family: Arial, sans-serif; /* specify the font family */
+            font-size: 27px; /* specify the font size */
+            color: #1b1bd3; /* specify the font color */
+            font-weight: inherit; /* specify the font weight (e.g., bold, normal) */
+        }
+        .submessage {
+            font-family: Arial, sans-serif; /* specify the font family */
+            font-size: 16px; /* specify the font size */
+            color: #333; /* specify the font color */
+            font-weight: initial; /* specify the font weight (e.g., bold, normal) */
+        }
+
+
+        </style>
+    </head>
+
+    <body>
+        <!-- Add the header -->
+        <div class="header">
+            <h2 class="my-heading" > Onstak Servers junction
+            <button class="logout-button" id="logoutButton">Logout</button></h2>
+            <h4 class="display-username">Welcome {{user}}</h4>
+
+        </div>
+
+         <!-- Add the sidebar -->
+        <div class="sidebar">
+        <a href="/allservers" id="servers-link" class="sidebar-option" >Servers</a>
+        <a href="/up-servers" id="up-servers-link" class="sidebar-option">Up Servers</a>
+        <a href="/down-servers" id="down-servers-link" class="sidebar-option">Down Servers</a>
+        <a href="/server_details_modify" id="server-details-link" class="sidebar-option">server_details_modify</a>
+    </div>
+
+        <!-- Add the server details -->
+        <div class="content">
+            <h3 style="color: deeppink;">{{link}}</h3>
+
+            <form method="POST" action="/get_selected_server_details" id="server-form">
+                 <p class="message">Welcome to servers world</p>
+
+                <p class="submessage"><label for="servers">Choose a server from list :</label>
+                <select id="servers" name="servers">
+                    {% for server in all_servers %}
+                        <option  value="{{ server }}">{{ server  }}</option>                 <!--showing server name in the dropdown button in ui -->
+                    {% endfor %}
+                </select>
+                <button type="submit">Start</button> </p>
+            </form>
+
+            <table style="width:100%">
+                <tr style="backgroung-colour:buttonface">
+                    <th>Server Name</th>
+                    <th>Server Status</th>
+                    <th>Configuration</th>
+<!--                    <th>Start/Stop</th>-->
+
+                </tr>
+                    {% for server in servers %}
+                        <tr {% if loop.index is not divisibleby 2 %}style="background-color: #d4c2c2;"{% endif %}>
+                        <td>{{ server }}</td>
+                        <td>{{ server_details_dict[server]['status'] }}</td>
+                        <td>{{ server_details_dict[server]['config'] }} </td>
+                        <td>
+                                    <div class="dropdown" onclick="toggleDropdown()">
+                                        <button class="dropbtn">&#x22EE;</button>
+                                            <div class="dropdown-content">
+                                                <a href="/server_data_modify?server={{server}}" class="edit-link" >Edit</a>
+                                                <a href="" class="edit-link" >Cancel</a>
+
+                                            </div>
+                                    </div>
+
+                                    <script>
+                                        function toggleDropdown() {
+                                            var dropdown = document.querySelector(".dropdown");
+                                            dropdown.classList.toggle("active");
+                                        }
+                                    </script>
+                        </td>
+                    {% endfor %}
+                </tr>
+
+            </table>
+        </div>
+        <!-- Add an HTML element to display the selected server name -->
+
+
+        <script>
+            var form = document.getElementById("server-form");
+            var select = document.getElementById("servers");
+            select.addEventListener("change", function() {
+                form.submit();
+            });
+        </script>
+
+         <script>
+              // Add an event listener to the sidebar menu
+              var sidebarMenu = document.getElementsByClassName('sidebar')[0];
+              sidebarMenu.addEventListener('click', function(event) {
+                // Remove the 'active' class from all options
+                var options = sidebarMenu.getElementsByClassName('sidebar-option');
+                for (var i = 0; i < options.length; i++) {
+                  options[i].classList.remove('active');
+                }
+                // Add the 'active' class to the clicked option
+                event.target.classList.add('active');
+              });
+        </script>
+
+        <script>
+            // script.js
+            document.getElementById('logoutButton').addEventListener('click', function() {
+          // Perform logout logic, such as clearing session or token data
+
+          // Redirect to login page
+          window.location.href = '/';
+            });
+
+        </script>
+
+
+    </body>
+</html>
